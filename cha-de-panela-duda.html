@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Chá de Panela da Duda 🥂</title>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet"/>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: #e5ddd5;
+      font-family: 'Nunito', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      padding: 40px 16px 60px;
+      background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23c9b8a8' fill-opacity='0.18'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    }
+
+    .phone-wrap {
+      width: 100%;
+      max-width: 420px;
+    }
+
+    /* WhatsApp header bar */
+    .wa-header {
+      background: #075e54;
+      border-radius: 18px 18px 0 0;
+      padding: 14px 18px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      box-shadow: 0 2px 8px #0005;
+    }
+
+    .wa-avatar {
+      width: 40px; height: 40px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #f9c6d0, #f48fb1);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 20px;
+      flex-shrink: 0;
+    }
+
+    .wa-name {
+      color: white;
+      font-weight: 800;
+      font-size: 15px;
+      line-height: 1.2;
+    }
+
+    .wa-status {
+      color: #a8d5b5;
+      font-size: 12px;
+      font-weight: 400;
+    }
+
+    .wa-dots {
+      margin-left: auto;
+      color: white;
+      font-size: 20px;
+      letter-spacing: 1px;
+      opacity: .8;
+    }
+
+    /* Chat area */
+    .wa-chat {
+      background: #e5ddd5;
+      padding: 16px 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23c9b8a8' fill-opacity='0.18'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    }
+
+    /* Date divider */
+    .date-chip {
+      text-align: center;
+      margin: 8px 0 12px;
+    }
+    .date-chip span {
+      background: #ccc8be;
+      color: #555;
+      font-size: 11.5px;
+      padding: 4px 14px;
+      border-radius: 8px;
+      font-weight: 600;
+      letter-spacing: .3px;
+    }
+
+    /* Bubble */
+    .bubble {
+      background: white;
+      border-radius: 0 14px 14px 14px;
+      padding: 12px 15px 10px;
+      max-width: 92%;
+      align-self: flex-start;
+      box-shadow: 0 1px 3px #0002;
+      position: relative;
+      animation: popIn .5s ease both;
+      line-height: 1.6;
+      font-size: 14.5px;
+      color: #111;
+      word-break: break-word;
+    }
+
+    .bubble::before {
+      content: '';
+      position: absolute;
+      top: 0; left: -8px;
+      border-width: 0 8px 8px 0;
+      border-style: solid;
+      border-color: transparent white transparent transparent;
+    }
+
+    .bubble .wa-time {
+      display: block;
+      text-align: right;
+      font-size: 11px;
+      color: #999;
+      margin-top: 4px;
+    }
+
+    /* Title inside bubble */
+    .msg-title {
+      font-size: 17px;
+      font-weight: 800;
+      color: #075e54;
+      margin-bottom: 6px;
+      line-height: 1.3;
+    }
+
+    /* Pix block */
+    .pix-block {
+      background: #f0f9f5;
+      border-left: 4px solid #25d366;
+      border-radius: 0 10px 10px 0;
+      padding: 10px 14px;
+      margin: 10px 0 4px;
+      font-size: 13.5px;
+    }
+
+    .pix-block .pix-label {
+      font-weight: 800;
+      color: #075e54;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: .5px;
+      margin-bottom: 3px;
+    }
+
+    .pix-block .pix-key {
+      font-weight: 700;
+      font-size: 15px;
+      color: #111;
+      letter-spacing: .3px;
+    }
+
+    .pix-block .pix-name {
+      font-size: 12px;
+      color: #777;
+      margin-top: 2px;
+    }
+
+    .copy-btn {
+      display: inline-block;
+      margin-top: 8px;
+      background: #25d366;
+      color: white;
+      border: none;
+      border-radius: 20px;
+      padding: 6px 16px;
+      font-size: 12.5px;
+      font-weight: 700;
+      cursor: pointer;
+      font-family: 'Nunito', sans-serif;
+      transition: background .15s, transform .1s;
+    }
+    .copy-btn:hover { background: #1db954; transform: scale(1.04); }
+    .copy-btn:active { transform: scale(.97); }
+
+    /* List bubble */
+    .list-title {
+      font-weight: 800;
+      font-size: 15px;
+      color: #075e54;
+      margin-bottom: 10px;
+    }
+
+    .gift-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 9px 0;
+      border-bottom: 1px solid #f0f0f0;
+      animation: fadeUp .5s ease both;
+    }
+    .gift-item:last-child { border-bottom: none; }
+
+    .g-emoji { font-size: 1.3rem; flex-shrink: 0; margin-top: 1px; }
+
+    .g-text {
+      flex: 1;
+      font-size: 13.5px;
+      color: #222;
+      line-height: 1.45;
+    }
+
+    .g-value {
+      font-weight: 800;
+      font-size: 13px;
+      color: #25d366;
+      white-space: nowrap;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    /* Seen ticks */
+    .ticks {
+      display: inline-flex;
+      align-items: center;
+      gap: 1px;
+      color: #4fc3f7;
+      font-size: 13px;
+      vertical-align: middle;
+    }
+
+    @keyframes popIn {
+      from { opacity: 0; transform: scale(.95) translateY(8px); }
+      to   { opacity: 1; transform: scale(1) translateY(0); }
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(6px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Bottom bar */
+    .wa-bottom {
+      background: #f0f0f0;
+      border-radius: 0 0 18px 18px;
+      padding: 10px 14px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      box-shadow: 0 2px 8px #0003;
+    }
+
+    .wa-input {
+      flex: 1;
+      background: white;
+      border-radius: 24px;
+      padding: 8px 16px;
+      font-size: 14px;
+      color: #aaa;
+      font-family: 'Nunito', sans-serif;
+      font-weight: 600;
+    }
+
+    .wa-send {
+      width: 38px; height: 38px;
+      background: #075e54;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px;
+      flex-shrink: 0;
+    }
+  </style>
+</head>
+<body>
+
+<div class="phone-wrap">
+
+  <!-- Header -->
+  <div class="wa-header">
+    <div class="wa-avatar">🌸</div>
+    <div>
+      <div class="wa-name">Chá de Panela da Duda 🥂</div>
+      <div class="wa-status">online agora</div>
+    </div>
+    <div class="wa-dots">⋮</div>
+  </div>
+
+  <!-- Chat -->
+  <div class="wa-chat">
+
+    <div class="date-chip"><span>hoje</span></div>
+
+    <!-- Bubble 1: intro -->
+    <div class="bubble" style="animation-delay:.1s">
+      <div class="msg-title">🥂 Chá de Panela da Duda!</div>
+      <p>Oi, gente linda! 🌸</p>
+      <br>
+      <p>Tô aqui pra contar que a vida mudou, o endereço vai mudar também e o coração tá transbordando! 🏠✨</p>
+      <br>
+      <p>Não precisa de nada grandioso — um carinho seu já enche o lar de amor. Mas se quiser me ajudar a montar esse cantinho, preparei uma listinha fofa com sugestões via Pix. Escolha o que o coração mandar! 💛</p>
+      <span class="wa-time">agora <span class="ticks">✓✓</span></span>
+    </div>
+
+    <!-- Bubble 2: pix -->
+    <div class="bubble" style="animation-delay:.4s">
+      <div class="pix-block">
+        <div class="pix-label">💸 Chave Pix</div>
+        <div class="pix-key">(61) 98652-3745</div>
+        <div class="pix-name">Banco Inter · Eduarda Vitória</div>
+      </div>
+      <button class="copy-btn" onclick="copyPix()">Copiar chave Pix</button>
+      <span class="wa-time">agora <span class="ticks">✓✓</span></span>
+    </div>
+
+    <!-- Bubble 3: list -->
+    <div class="bubble" style="animation-delay:.7s; max-width: 100%;">
+      <div class="list-title">🛍️ A listinha:</div>
+      <div id="giftList"></div>
+      <span class="wa-time">agora <span class="ticks">✓✓</span></span>
+    </div>
+
+  </div>
+
+  <!-- Bottom bar -->
+  <div class="wa-bottom">
+    <div class="wa-input">Mensagem</div>
+    <div class="wa-send">🎁</div>
+  </div>
+
+</div>
+
+<script>
+  const items = [
+    { emoji: "😶", text: "Aqui só pra dizer que não ajudei em nada, mas tô mandando energia boa", value: "R$ 50" },
+    { emoji: "🍳", text: "Uma frigideira que eu finjo que sei usar", value: "R$ 70" },
+    { emoji: "🫗", text: "Algo pra cozinha que vi no Pinterest e nunca vou fazer na vida real", value: "R$ 80" },
+    { emoji: "🧹", text: "Pra ajudar a limpar a bagunça que eu CERTAMENTE vou fazer", value: "R$ 60" },
+    { emoji: "🛋️", text: "Um pedacinho do sofá onde vou fingir que tô descansando mas tô no celular", value: "R$ 100" },
+    { emoji: "☕", text: "Uma xícara pra tomar café e resolver os problemas do mundo pela manhã", value: "R$ 55" },
+    { emoji: "🫙", text: "Potes pra guardar coisas que vou organizar uma vez e nunca mais", value: "R$ 75" },
+    { emoji: "🍽️", text: "Pratos bonitos pra quando vier visita, porque no dia a dia é prato fundo mesmo", value: "R$ 90" },
+    { emoji: "🪴", text: "Uma plantinha que prometo cuidar (dessa vez vai)", value: "R$ 65" },
+    { emoji: "🧺", text: "Uma cesta de roupa suja porque a pilha no chão virou decoração", value: "R$ 85" },
+    { emoji: "🫒", text: "Azeite caro pra me sentir chef de cozinha por 10 minutos", value: "R$ 95" },
+    { emoji: "🛁", text: "Algo pro banheiro que vai transformar em spa de hotel 5 estrelas (mentira)", value: "R$ 110" },
+    { emoji: "🧊", text: "Forminha de gelo porque a gente merece uma bebida gelada de verdade", value: "R$ 45" },
+    { emoji: "🕯️", text: "Vela aromática pra disfarçar o cheiro de comida queimada", value: "R$ 70" },
+    { emoji: "🪑", text: "Uma cadeira pra quando a visita não vai embora mas eu quero sentar em paz", value: "R$ 120" },
+    { emoji: "🧃", text: "Liquidificador pra vitamina que vou fazer uma vez em janeiro e nunca mais", value: "R$ 150" },
+    { emoji: "🌙", text: "Roupa de cama novinha pra dormir feito anjinho", value: "R$ 130" },
+    { emoji: "🍕", text: "Uma forma de pizza porque delivery tá caro e agora sou chef", value: "R$ 85" },
+    { emoji: "🪞", text: "Espelho pra me ver bonita antes de sair e voltar pra trocar de roupa", value: "R$ 140" },
+    { emoji: "💛", text: "Contribuição livre — do tamanho do seu coração (que é enorme, eu sei)", value: "à vontade" },
+  ];
+
+  const list = document.getElementById('giftList');
+  items.forEach((item, i) => {
+    const el = document.createElement('div');
+    el.className = 'gift-item';
+    el.style.animationDelay = `${0.8 + i * 0.05}s`;
+    el.innerHTML = `
+      <div class="g-emoji">${item.emoji}</div>
+      <div class="g-text">${item.text}</div>
+      <div class="g-value">${item.value}</div>
+    `;
+    list.appendChild(el);
+  });
+
+  function copyPix() {
+    navigator.clipboard.writeText('61986523745').then(() => {
+      const btn = document.querySelector('.copy-btn');
+      btn.textContent = 'Copiado! ✓';
+      setTimeout(() => btn.textContent = 'Copiar chave Pix', 2000);
+    });
+  }
+</script>
+</body>
+</html>
